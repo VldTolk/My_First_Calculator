@@ -25,7 +25,7 @@ public class CalculatorPresenter {
         this.view = view;
     }
 
-    public void onDigitPress(Integer number){
+    public void onDigitPress(Integer number) {
         if (argTwo == null) {
 
             if (isDotPressed) {
@@ -47,7 +47,7 @@ public class CalculatorPresenter {
         }
     }
 
-    public void onOperationPress(Operation operation){
+    public void onOperationPress(Operation operation) {
         if (previousOperation != null) {
             double result = calculator.doOperation(argOne, argTwo, previousOperation);
 
@@ -68,14 +68,14 @@ public class CalculatorPresenter {
         }
     }
 
-    public void onEqualsPress(){
+    public void onEqualsPress() {
         argOne = calculator.doOperation(argOne, argTwo, previousOperation);
         displayResult(argOne);
         previousOperation = null;
         argTwo = null;
     }
 
-    public void onClearPress(){
+    public void onClearPress() {
         argOne = 0.0;
         argTwo = null;
         previousOperation = null;
