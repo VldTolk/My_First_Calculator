@@ -18,4 +18,9 @@
     <string name="key_equals">=</string>
     <string name="key_0">0</string>
     <string name="key_dot">.</string>
+    <string name="settings">settings</string>
+    <string name="Select">Selection of a theme</string>
+    <string name="light_theme">light</string>
+    <string name="dark_theme">dark</string>
+    <string name="back_button">back to calculator</string>
 </resources>
