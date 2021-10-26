@@ -1,6 +1,6 @@
 package com.example.myfirstcalculator.presenter;
 
-import com.example.myfirstcalculator.model.Calculator;
+import com.example.myfirstcalculator.model.CalculatorReal;
 import com.example.myfirstcalculator.model.Operation;
 import com.example.myfirstcalculator.view.CalculatorView;
 
@@ -9,7 +9,7 @@ public class CalculatorPresenter {
 
     private static final int BASE = 10;
 
-    private final Calculator calculator;
+    private final CalculatorReal calculator;
     private final CalculatorView view;
 
     private Double argOne = 0.0;
@@ -20,7 +20,7 @@ public class CalculatorPresenter {
 
     private Operation previousOperation;
 
-    public CalculatorPresenter(Calculator calculator, CalculatorView view) {
+    public CalculatorPresenter(CalculatorReal calculator, CalculatorView view) {
         this.calculator = calculator;
         this.view = view;
     }
@@ -69,10 +69,16 @@ public class CalculatorPresenter {
     }
 
     public void onEqualsPress() {
-        argOne = calculator.doOperation(argOne, argTwo, previousOperation);
-        displayResult(argOne);
-        previousOperation = null;
-        argTwo = null;
+        if (argOne == 0.0) {
+            onClearPress();
+        } else if (argTwo == null) {
+            displayResult(argOne);
+        } else {
+            argOne = calculator.doOperation(argOne, argTwo, previousOperation);
+            displayResult(argOne);
+            previousOperation = null;
+            argTwo = null;
+        }
     }
 
     public void onClearPress() {
@@ -82,56 +88,6 @@ public class CalculatorPresenter {
         isDotPressed = false;
         displayResult(argOne);
     }
-
-/*
-    public void onBackspacePress(){
-        if (argTwo == null) {
-
-            if (isDotPressed) {
-                String s = argOne.toString();
-                s = s.substring(0, s.length() - 1);
-                argOne = Double.valueOf(s);
-                isDotPressed = false;
-                try {
-                    Integer.valueOf(s);
-                } catch (NumberFormatException n){
-                    isDotPressed = true;
-                }
-            } else {
-                String s = argOne.toString();
-                s = s.substring(0, s.length() - 3);
-                if (s.equals("")) {
-                    argOne = 0.0;
-                } else {
-                    argOne = Double.valueOf(s);
-                }
-            }
-
-            displayResult(argOne);
-        } else {
-
-            if (isDotPressed) {
-                String[] s = argTwo.toString().split("\\.");
-                s[1] = s[1].substring(0, s[1].length() - 1);
-                if (s[1].equals("")){
-                    isDotPressed = false;
-                }
-                argTwo = Double.valueOf(Arrays.toString(s));
-
-            } else {
-                String s = argTwo.toString();
-                String t = s.substring(0, s.length() - 3);
-                if (t.equals("")) {
-                    argTwo = 0.0;
-                } else {
-                    argTwo = Double.valueOf(t);
-                }
-            }
-
-            displayResult(argTwo);
-        }
-    }
-*/
 
     private void displayResult(double arg) {
         long longValue = (long) arg;

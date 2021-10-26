@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/hpbvc/AndroidStudioProjects/MyFirstCalculator/app/src/main/res/drawable/ic_baseline_build_24.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/hpbvc/AndroidStudioProjects/MyFirstCalculator/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14537037037037037" />
         <entry key="..\:/Users/hpbvc/AndroidStudioProjects/MyFirstCalculator/app/src/main/res/font/stick_no_bill.xml" value="0.18611111111111112" />
         <entry key="..\:/Users/hpbvc/AndroidStudioProjects/MyFirstCalculator/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/hpbvc/AndroidStudioProjects/MyFirstCalculator/app/src/main/res/layout/settings_activity.xml" value="0.1644021739130435" />
       </map>
     </option>
   </component>

@@ -1,28 +1,57 @@
-package com.example.myfirstcalculator;
+package com.example.myfirstcalculator.view;
 
-import androidx.annotation.NonNull;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.myfirstcalculator.R;
 import com.example.myfirstcalculator.model.CalculatorReal;
 import com.example.myfirstcalculator.model.Operation;
 import com.example.myfirstcalculator.presenter.CalculatorPresenter;
-import com.example.myfirstcalculator.view.CalculatorView;
+import com.example.myfirstcalculator.presenter.CalculatorThemes;
+import com.example.myfirstcalculator.presenter.Theme;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements CalculatorView {
 
+    private static final String ARG_THEME = "ARG_THEME";
+
     private TextView txtResult;
+    private CalculatorThemes storage;
+    private Theme theme = Theme.DARK;
 
-    CalculatorPresenter presenter = new CalculatorPresenter(new CalculatorReal(), this);
+    private final CalculatorPresenter presenter = new CalculatorPresenter(new CalculatorReal(), this);
 
+    ActivityResultLauncher<Intent> settingsLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
+        @Override
+        public void onActivityResult(ActivityResult result) {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                if (result.getData() != null) {
+                    theme = (Theme) result.getData().getSerializableExtra(ARG_THEME);
+                    storage.setTheme(theme);
+                    recreate();
+                }
+            }
+        }
+    });
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        storage = new CalculatorThemes(this);
+        setTheme(storage.getTheme().getTheme());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         txtResult = findViewById(R.id.output);
@@ -74,33 +103,11 @@ public class MainActivity extends AppCompatActivity implements CalculatorView {
         View.OnClickListener clearClick = view -> presenter.onClearPress();
         findViewById(R.id.key_C).setOnClickListener(clearClick);
 
-/*        View.OnClickListener backspaceClick = view -> presenter.onBackspacePress();
-        findViewById(R.id.key_backspace).setOnClickListener(backspaceClick);*/
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+        findViewById(R.id.settings).setOnClickListener(v -> {
+            Intent runSettings = new Intent(MainActivity.this, SettingsActivity.class);
+            runSettings.putExtra(ARG_THEME, theme);
+            settingsLauncher.launch(runSettings);
+        });
     }
 
     @Override
